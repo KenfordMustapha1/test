@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Calculator</title>
+    <style>
+        body {
+            background-color: #4d4d4d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .calculator {
+            background-color: black;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+        .calculator input[type="text"] {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 20px;
+            background-color: black;
+            border: none;
+            font-size: 2.5rem;
+            text-align: right;
+            color: white;
+            padding-right: 10px;
+            box-sizing: border-box;
+        }
+        .calculator input[type="button"] {
+            width: 22%;
+            height: 60px;
+            margin: 1%;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.5rem;
+            background-color: #4d4d4d;
+            color: white;
+            box-sizing: border-box;
+        }
+        .calculator input[type="button"].orange {
+            background-color: orange;
+            color: white;
+        }
+        .calculator input[type="button"].grey {
+            background-color: #bdc1c6;
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .calculator input[type="text"] {
+                height: 60px;
+                font-size: 2rem;
+            }
+            .calculator input[type="button"] {
+                height: 50px;
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 10px;
+            }
+            .calculator input[type="text"] {
+                height: 50px;
+                font-size: 1.75rem;
+            }
+            .calculator input[type="button"] {
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+        <div>
+            <input type="button" value="AC" onclick="clearDisplay()" class="grey">
+            <input type="button" value="+/-" onclick="toggleSign()" class="grey">
+            <input type="button" value="%" onclick="appendOperator('%')" class="grey">
+            <input type="button" value="÷" onclick="appendOperator('/')" class="orange">
+        </div>
+        <div>
+            <input type="button" value="7" onclick="appendNumber(7)">
+            <input type="button" value="8" onclick="appendNumber(8)">
+            <input type="button" value="9" onclick="appendNumber(9)">
+            <input type="button" value="x" onclick="appendOperator('*')" class="orange">
+        </div>
+        <div>
+            <input type="button" value="4" onclick="appendNumber(4)">
+            <input type="button" value="5" onclick="appendNumber(5)">
+            <input type="button" value="6" onclick="appendNumber(6)">
+            <input type="button" value="-" onclick="appendOperator('-')" class="orange">
+        </div>
+        <div>
+            <input type="button" value="1" onclick="appendNumber(1)">
+            <input type="button" value="2" onclick="appendNumber(2)">
+            <input type="button" value="3" onclick="appendNumber(3)">
+            <input type="button" value="+" onclick="appendOperator('+')" class="orange">
+        </div>
+        <div>
+            <input type="button" value="0" onclick="appendNumber(0)" style="width: 47%;">
+            <input type="button" value="." onclick="appendDot()">
+            <input type="button" value="=" onclick="calculate()" class="orange">
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '';
+
+        function appendNumber(number) {
+            currentInput += number;
+            document.getElementById('display').value = currentInput;
+        }
+
+        function appendOperator(operator) {
+            currentInput += operator;
+            document.getElementById('display').value = currentInput;
+        }
+
+        function appendDot() {
+            if (!currentInput.includes('.')) {
+                currentInput += '.';
+                document.getElementById('display').value = currentInput;
+            }
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            try {
+                const result = eval(currentInput.replace(/×/g, '*').replace(/÷/g, '/'));
+                document.getElementById('display').value = result;
+                currentInput = result.toString();
+            } catch (error) {
+                document.getElementById('display').value = 'Error';
+                currentInput = '';
+            }
+        }
+
+        function toggleSign() {
+            if (currentInput) {
+                if (currentInput.charAt(0) === '-') {
+                    currentInput = currentInput.slice(1);
+                } else {
+                    currentInput = '-' + currentInput;
+                }
+                document.getElementById('display').value = currentInput;
+            }
+        }
+    </script>
+</body>
+</html>
