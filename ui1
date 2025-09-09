@@ -1,0 +1,130 @@
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+export default function App() {
+  const [lastName, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [yearSection, setYearSection] = useState('');
+
+  const onPressPresent = () => {
+    alert(`${lastName} ${firstName} marked as Present`);
+  };
+
+  const onPressAbsent = () => {
+    alert(`${lastName} ${firstName} marked as Absent`);
+  };
+
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboardAvoidingContainer}
+    >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Attendance Form</Text>
+
+          <Text style={styles.label}>Last Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter last name"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+
+          <Text style={styles.label}>First Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter first name"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+
+          <Text style={styles.label}>Year & Section</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter year and section"
+            value={yearSection}
+            onChangeText={setYearSection}
+          />
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={[styles.button, styles.presentButton]} onPress={onPressPresent}>
+              <Text style={styles.buttonText}>Present</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.button, styles.absentButton]} onPress={onPressAbsent}>
+              <Text style={styles.buttonText}>Absent</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  keyboardAvoidingContainer: {
+    flex: 1,
+    backgroundColor: '#f2f2f2',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  container: {
+    backgroundColor: '#fff',
+    padding: 24,
+    borderRadius: 12,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 24,
+    color: '#333',
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 6,
+    color: '#555',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    marginBottom: 16,
+    backgroundColor: '#fafafa',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'space-between',
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 6,
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  presentButton: {
+    backgroundColor: '#4CAF50',
+  },
+  absentButton: {
+    backgroundColor: '#F44336',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});
